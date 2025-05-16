@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Travel Itinerary</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 50px; }
+        ul { margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <h1>Itinerary for {{ destination }}</h1>
+    {% for day in itinerary %}
+        <h3>Day {{ day.day }}</h3>
+        <ul>
+            {% for activity in day.activities %}
+                <li>{{ activity }}</li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+    <a href="/">Plan Another Trip</a>
+</body>
+</html>
