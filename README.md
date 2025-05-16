@@ -1,5 +1,4 @@
-
-#### AI-Powered Travel Planner Agent MVP
+#### AI-Powered Travel Planner Agent MVP ✈️🏨
 
 ##### Overview
 The AI-Powered Travel Planner Agent is a Minimum Viable Product (MVP) that generates personalized travel itineraries based on user preferences. Users provide input (e.g., "5-day trip to Paris under $2000, interested in museums"), and the agent uses the Google Gemini SDK to parse preferences, generate relevant attractions, and create a day-by-day itinerary. The MVP is a web-based application built with Flask, featuring a simple interface for input and output.
