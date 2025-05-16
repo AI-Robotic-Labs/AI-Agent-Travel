@@ -52,6 +52,7 @@ def generate_itinerary(preferences, attractions):
     Output as a JSON list of daily plans with fields: day, activities (list of strings).
     Example: [{"day": 1, "activities": ["Visit Louvre", "Dinner at Le Bistro"]}, ...]
     """
+    print("Generated Prompt:", prompt)  # Debug
     response = model.generate_content(prompt)
     try:
         return json.loads(response.text.strip("```json\n").strip("```"))
