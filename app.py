@@ -45,8 +45,7 @@ def get_attractions(destination, interests):
 
 def generate_itinerary(preferences, attractions):
     """Generate a simple itinerary using Gemini SDK."""
-    # Convert attractions to a JSON string to avoid f-string issues
-    attractions_json = json.dumps(attractions)
+    attractions_json = json.dumps(attractions)  # Serialize attractions to JSON string
     prompt = f"""
     Create a {preferences['days']}-day itinerary for {preferences['destination']} with a budget of ${preferences['budget']}.
     Include activities related to {', '.join(preferences['interests'])} and these attractions: {attractions_json}.
@@ -64,7 +63,7 @@ def generate_itinerary(preferences, attractions):
 def index():
     if request.method == "POST":
         user_input = request.form["user_input"]
-        print("POST request received:", user_input)  # Debug
+        print("POST request received:", user_input)
         try:
             preferences = parse_preferences(user_input)
             print("Preferences:", preferences)
