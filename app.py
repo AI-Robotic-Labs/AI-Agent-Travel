@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, send_from_directory
 import google.generativeai as genai
 from dotenv import load_dotenv
 import os
@@ -23,7 +23,11 @@ def parse_preferences(user_input):
     Output format: {{ "destination": "", "budget": 0, "days": 0, "interests": [] }}
     """
     response = model.generate_content(prompt)
-    return json.loads(response.text.strip("```json\n").strip("```"))
+    try:
+        return json.loads(response.text.strip("```json\n").strip("```"))
+    except json.JSONDecodeError as e:
+        print("JSON Error in parse_preferences:", e, "Response:", response.text)
+        raise
 
 def get_attractions(destination, interests):
     """Use Gemini SDK to generate a list of attractions based on interests."""
@@ -33,34 +37,50 @@ def get_attractions(destination, interests):
     Example: [{"name": "Louvre Museum", "description": "World-famous art museum"}]
     """
     response = model.generate_content(prompt)
-    return json.loads(response.text.strip("```json\n").strip("```"))
+    try:
+        return json.loads(response.text.strip("```json\n").strip("```"))
+    except json.JSONDecodeError as e:
+        print("JSON Error in get_attractions:", e, "Response:", response.text)
+        raise
 
 def generate_itinerary(preferences, attractions):
     """Generate a simple itinerary using Gemini SDK."""
+    # Convert attractions to a JSON string to avoid f-string issues
+    attractions_json = json.dumps(attractions)
     prompt = f"""
     Create a {preferences['days']}-day itinerary for {preferences['destination']} with a budget of ${preferences['budget']}.
-    Include activities related to {', '.join(preferences['interests'])} and these attractions: {attractions}.
+    Include activities related to {', '.join(preferences['interests'])} and these attractions: {attractions_json}.
     Output as a JSON list of daily plans with fields: day, activities (list of strings).
     Example: [{"day": 1, "activities": ["Visit Louvre", "Dinner at Le Bistro"]}, ...]
     """
     response = model.generate_content(prompt)
-    return json.loads(response.text.strip("```json\n").strip("```"))
+    try:
+        return json.loads(response.text.strip("```json\n").strip("```"))
+    except json.JSONDecodeError as e:
+        print("JSON Error in generate_itinerary:", e, "Response:", response.text)
+        raise
 
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
         user_input = request.form["user_input"]
+        print("POST request received:", user_input)  # Debug
         try:
-            # Parse preferences
             preferences = parse_preferences(user_input)
-            # Fetch attractions using Gemini
+            print("Preferences:", preferences)
             attractions = get_attractions(preferences["destination"], preferences["interests"])
-            # Generate itinerary
+            print("Attractions:", attractions)
             itinerary = generate_itinerary(preferences, attractions)
+            print("Itinerary:", itinerary)
             return render_template("result.html", itinerary=itinerary, destination=preferences["destination"])
         except Exception as e:
+            print("Error:", str(e))
             return render_template("index.html", error=str(e))
     return render_template("index.html", error=None)
+
+@app.route("/favicon.ico")
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, "static"), "favicon.ico")
 
 if __name__ == "__main__":
     app.run(debug=True)
