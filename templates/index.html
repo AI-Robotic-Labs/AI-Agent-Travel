@@ -1,22 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Travel Itinerary</title>
+    <title>Travel Planner</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 50px; }
-        ul { margin: 10px 0; }
+        .error { color: red; }
     </style>
 </head>
 <body>
-    <h1>Itinerary for {{ destination }}</h1>
-    {% for day in itinerary %}
-        <h3>Day {{ day.day }}</h3>
-        <ul>
-            {% for activity in day.activities %}
-                <li>{{ activity }}</li>
-            {% endfor %}
-        </ul>
-    {% endfor %}
-    <a href="/">Plan Another Trip</a>
+    <h1>AI Travel Planner</h1>
+    <p>Enter your travel preferences (e.g., "5-day trip to Paris under $2000, interested in museums"):</p>
+    <form method="POST" action="/">
+        <textarea name="user_input" rows="4" cols="50" required></textarea><br>
+        <input type="submit" value="Plan My Trip">
+    </form>
+    {% if error %}
+        <p class="error">Error: {{ error }}</p>
+    {% endif %}
 </body>
 </html>
