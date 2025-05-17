@@ -25,7 +25,7 @@ The AI-Powered Travel Planner Agent is a Minimum Viable Product (MVP) that gener
 ##### Setup Instructions
 1. **Clone the Repository** (or create the project structure):
    ```bash
-   git clone https://github.com/your-repo/travel-planner-mvp.git
+   git clone https://github.com/AI-Robotic-Labs/AI-Agent-Travel.git
    cd travel-planner-mvp
    ```
    Project structure:
@@ -138,7 +138,7 @@ O Agente de Planejamento de Viagens com IA é um Produto Mínimo Viável (MVP) q
 ##### Instruções de Configuração
 1. **Clonar o Repositório** (ou criar a estrutura do projeto):
    ```bash
-   git clone https://github.com/seu-repositorio/travel-planner-mvp.git
+   git clone https://github.com/AI-Robotic-Labs/AI-Agent-Travel.git
    cd travel-planner-mvp
    ```
    Estrutura do projeto:
